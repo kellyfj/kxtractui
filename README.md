@@ -12,5 +12,8 @@ Setup
 - Create virtual environment
 python3 -m venv virtualenv
 
+Activate env
+source virtualenv/bin/activate
+
 
 

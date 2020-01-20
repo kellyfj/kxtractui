@@ -78,8 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kxtract',
-        'USER': 'admin',
-        'PASSWORD': 'prodadmin',
+        'USER': 'ui_readonly',
+        'PASSWORD': os.getenv('DB_RO_PASSWORD'),
         'HOST': 'kxtract-prod.crsstwtfb9ds.us-east-1.rds.amazonaws.com',
         'PORT': '3306',
     }

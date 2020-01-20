@@ -1,0 +1,30 @@
+<html>
+<title>Episode List</title>
+<body>
+{% if episodes %}
+<table border=1>
+    <thead>
+        <th>Id</th>
+        <th>Episode Name</th>
+        <th>Processing Status</th>
+        <th>Episode Source URL</th>
+        <th>Audio Filesize</th>
+        <th>S3 URL</th>
+    </thead>
+    {% for e in episodes %}
+    <tr>
+        <td>{{ e.id }}</td>
+        <td>{{ e.episode_name }}</td>
+        <td>{{ e.processing_status}}</td>
+        <td><a href="{{e.origin_url}}">Origin URL</a></td>
+        <td>{{e.filesize_kb}}</td>
+        <td>{{e.s3_url}}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% else %}
+    <p>No episodes are available.</p>
+{% endif %}
+</body>
+</html>

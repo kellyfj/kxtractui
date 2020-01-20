@@ -22,7 +22,7 @@ class Podcast(models.Model):
 
 class Episode(models.Model):
     podcast = models.ForeignKey('Podcast', models.DO_NOTHING)
-    episode_id = models.IntegerField(blank=True, null=True)
+    id = models.IntegerField(primary_key=True, blank=True)
     episode_name = models.CharField(max_length=128)
     filesize_kb = models.IntegerField(blank=True, null=True)
     origin_url = models.CharField(max_length=256)

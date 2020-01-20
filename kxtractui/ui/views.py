@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Podcast
+from .models import Podcast, Episode
 
 
 def index(request):
@@ -16,7 +16,11 @@ def podcasts(request):
 
 
 def episodes(request):
-    return HttpResponse("TBD2")
+    episodes = Episode.objects.order_by('id')
+    context = {
+        'episodes': episodes,
+    }
+    return render(request, 'episodes/index.html', context)
 
 
 def transcription(request):

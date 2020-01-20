@@ -1,0 +1,14 @@
+<html>
+<title>Podcast List</title>
+<body>
+{% if current_podcasts %}
+    <ul>
+    {% for p in current_podcasts %}
+        <li>{{ p.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No podcasts are available.</p>
+{% endif %}
+</body>
+</html>

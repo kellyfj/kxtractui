@@ -45,6 +45,9 @@ class Subscription(models.Model):
         managed = False
         db_table = 'subscription'
 
+    def __str__(self):
+        return "UserId :{} --> Podcast Name: {}.".format(self.user_id, self.podcast.name)
+
 
 class Transcription(models.Model):
     episode = models.OneToOneField(Episode, models.DO_NOTHING)
@@ -55,3 +58,6 @@ class Transcription(models.Model):
     class Meta:
         managed = False
         db_table = 'transcription'
+
+    def __str__(self):
+        return "Transcription for Episode Name : {}".format(self.episode.episode_name)

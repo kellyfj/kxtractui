@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Podcast, Episode, Subscription, Transcription
+
+admin.site.register(Podcast)
+admin.site.register(Episode)
+admin.site.register(Subscription)
+admin.site.register(Transcription)
+

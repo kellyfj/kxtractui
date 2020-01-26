@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 
 class Podcast(models.Model):
@@ -22,13 +23,19 @@ class Podcast(models.Model):
 
 
 class Episode(models.Model):
+    processing_staus_type = (
+        ('0', "Downloaded"),
+        ('1', "Transcription In Process"),
+        ('2', "Transcription Complete"),
+        ('3', "Error"),
+    )
     podcast = models.ForeignKey('Podcast', models.DO_NOTHING, null=True)
     id = models.IntegerField(primary_key=True, blank=True)
     episode_name = models.CharField(max_length=128)
     filesize_kb = models.IntegerField(blank=True, null=True)
     origin_url = models.CharField(max_length=256)
     s3_url = models.CharField(max_length=256)
-    processing_status = models.CharField(max_length=64)
+    processing_status = models.CharField(choices=processing_staus_type, max_length=64)
 
     class Meta:
         managed = getattr(settings, 'UNDER_TEST', False)

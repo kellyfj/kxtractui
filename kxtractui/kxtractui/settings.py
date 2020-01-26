@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
+from django.core.management import call_command
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,9 +84,25 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_RO_PASSWORD'),
         'HOST': 'kxtract-prod.crsstwtfb9ds.us-east-1.rds.amazonaws.com',
         'PORT': '3306',
+        'TEST': {
+            'NAME': 'test_kxtract',
+        },
     }
 }
+# Hacky solution to getting in-memory DB for functional / unit tests
+# https://stackoverflow.com/questions/4650509/different-db-for-testing-in-django
+# if 'test' in sys.argv:
+#    DATABASES['default'] = {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': 'testdb'
+#    }
+#    DEBUG = False  # might accelerate a bit
+#    TEMPLATE_DEBUG = False
+#    call_command('makemigrations')
+#    call_command('migrate')  # tables don't get created automatically
 
+# Create global variable that will tell if our application is under test - referenced in models
+UNDER_TEST = (len(sys.argv) > 1 and 'test' in sys.argv)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

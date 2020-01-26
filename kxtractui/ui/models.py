@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.conf import settings
 
 
 class Podcast(models.Model):
@@ -13,7 +14,7 @@ class Podcast(models.Model):
     rss_url = models.CharField(max_length=1024)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'UNDER_TEST', False)
         db_table = 'podcast'
 
     def __str__(self):
@@ -21,7 +22,7 @@ class Podcast(models.Model):
 
 
 class Episode(models.Model):
-    podcast = models.ForeignKey('Podcast', models.DO_NOTHING)
+    podcast = models.ForeignKey('Podcast', models.DO_NOTHING, null=True)
     id = models.IntegerField(primary_key=True, blank=True)
     episode_name = models.CharField(max_length=128)
     filesize_kb = models.IntegerField(blank=True, null=True)
@@ -30,19 +31,20 @@ class Episode(models.Model):
     processing_status = models.CharField(max_length=64)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'UNDER_TEST', False)
         db_table = 'episode'
         unique_together = (('podcast', 'episode_name'),)
 
     def __str__(self):
         return self.episode_name
 
+
 class Subscription(models.Model):
     user_id = models.CharField(max_length=64)
-    podcast = models.ForeignKey(Podcast, models.DO_NOTHING)
+    podcast = models.ForeignKey(Podcast, models.DO_NOTHING, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'UNDER_TEST', False)
         db_table = 'subscription'
 
     def __str__(self):
@@ -50,13 +52,13 @@ class Subscription(models.Model):
 
 
 class Transcription(models.Model):
-    episode = models.OneToOneField(Episode, models.DO_NOTHING)
+    episode = models.OneToOneField(Episode, models.DO_NOTHING, null=True)
     s3_transcription_download_location = models.CharField(max_length=4096, blank=True, null=True)
     raw_transcription = models.TextField(blank=True, null=True)
     formatted_transcription = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'UNDER_TEST', False)
         db_table = 'transcription'
 
     def __str__(self):
